@@ -2,8 +2,10 @@
 pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract Marketplace {
+
+contract Marketplace is IERC721Receiver {
 
     struct Listing {
         address seller;
@@ -45,6 +47,15 @@ contract Marketplace {
     function unpause() public onlyOwner {
         paused = false;
         emit Unpaused();
+    }
+
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes memory
+    ) public virtual override returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 
     function listNFT(address nftContract, uint256 tokenId, uint256 price) external whenNotPaused {

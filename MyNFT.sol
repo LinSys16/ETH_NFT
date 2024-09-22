@@ -17,5 +17,6 @@ contract MyNFT is ERC721 {
     }
 
     function approveMarketplace(address marketplace) public {
-        setApprovalForAll(marketplace,true);}
+        _setApprovalForAll(msg.sender, marketplace,true);
+    }
 }
